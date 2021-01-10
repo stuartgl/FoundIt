@@ -10,7 +10,6 @@
 
 <h1>FoundIt</h1>
 
-
 <div>
     Search for a finding keyword:
 <label for="input_name"></label>
@@ -19,7 +18,6 @@
 
 
 </div>
-
 
 
 <pre id="debug"></pre>
@@ -67,26 +65,6 @@
             content += "Description: " + res_val[i][6] + "\n";
             content += "Recmmendation: " + res_val[i][7] + "\n";
             content += "References: " + res_val[i][8] + "\n\n";
-        }
-        $("#results").html(content);
-    });
-
-    $("#button_desc").click(function() {
-		var time_old = new Date();
-        var query = "select * from findings where description like '%" + $("#input_desc").val() + "%'";
-        $("#query").html("<h2>Query</h2>"+query);
-        var res = db.exec(query);
-        var time_taken = new Date() - time_old;
-        $("#time").html("<h2>Elapsed time</h2>"+ time_taken +" ms");
-        var content = "<h2>Results</h2>";
-        var res_val = res[0].values;
-        for (var i=0; i < res_val.length; i++) {
-            content += "Title: " + res_val[i][0] + "\n";
-            content += "Title: " + res_val[i][1] + "\n";
-            content += "Title: " + res_val[i][2] + "\n";
-            content += "Title: " + res_val[i][3] + "\n";
-            content += "Title: " + res_val[i][4] + "\n";
-            content += "Coordonnées: " + res_val[i][5] + " " + res_val[i][6] + "\n\n";
         }
         $("#results").html(content);
     });
