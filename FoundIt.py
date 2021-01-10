@@ -52,7 +52,7 @@ def usageInstructions():
     print("Examples:")
     print("Python: SSL (return)")
     print("SQLite: sqlite3 findings_db.sqlite \"select * from findings where title like '%ssl%'\"")
-    print("GUI: python -m SimpleHTTPServer -p 8000 | firefox http://localhost:8000")
+    print("GUI: python -m SimpleHTTPServer 8090 | firefox http://localhost:8090")
 
 def interactiveUser():
     spacer="================================"
