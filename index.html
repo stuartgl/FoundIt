@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+	<title>FoundIt - Findings Database</title>
+</head>
+
+<body>
+
+<h1>FoundIt</h1>
+
+
+<div>
+    Search for a finding keyword:
+<label for="input_name"></label>
+<input id="input_name" type="text" value="ssl"/>
+<button id="button_name" type="button">Search</button>
+
+
+</div>
+
+
+
+<pre id="debug"></pre>
+<pre id="query"></pre>
+<pre id="time"></pre>
+<pre id="results"></pre>
+
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script src='js/sql.js'></script>
+<script>
+	function loadBinaryFile(path,success) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", path, true);
+        xhr.responseType = "arraybuffer";
+        xhr.onload = function() {
+            var data = new Uint8Array(xhr.response);
+            var arr = new Array();
+            for(var i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
+            success(arr.join(""));
+        };
+        xhr.send();
+    };
+
+    var db;
+	loadBinaryFile('./findings_db.sqlite', function(data){
+		db = new SQL.Database(data);
+	});
+
+    $("#button_name").click(function() {
+		var time_old = new Date();
+        var query = "select * from findings where title like '%" + $("#input_name").val() + "%'";
+        $("#query").html("<h2>Query</h2>sqlite3 findings_db.sqlite \""+query+"\"");
+
+        var res = db.exec(query);
+        var content = "<h2>Results</h2>";
+        var res_val = res[0].values;
+        for (var i=0; i < res_val.length; i++) {
+            content += "ID: " + res_val[i][0] + "\n";
+            content += "Title: " + res_val[i][1] + "\n";
+            content += "CVSS: " + res_val[i][2] + "\n";
+            content += "Category: " + res_val[i][3] + "\n";
+            content += "Title: " + res_val[i][4] + "\n";
+            content += "Overview: " + res_val[i][5] + "\n";
+            content += "Description: " + res_val[i][6] + "\n";
+            content += "Recmmendation: " + res_val[i][7] + "\n";
+            content += "References: " + res_val[i][8] + "\n\n";
+        }
+        $("#results").html(content);
+    });
+
+    $("#button_desc").click(function() {
+		var time_old = new Date();
+        var query = "select * from findings where description like '%" + $("#input_desc").val() + "%'";
+        $("#query").html("<h2>Query</h2>"+query);
+        var res = db.exec(query);
+        var time_taken = new Date() - time_old;
+        $("#time").html("<h2>Elapsed time</h2>"+ time_taken +" ms");
+        var content = "<h2>Results</h2>";
+        var res_val = res[0].values;
+        for (var i=0; i < res_val.length; i++) {
+            content += "Title: " + res_val[i][0] + "\n";
+            content += "Title: " + res_val[i][1] + "\n";
+            content += "Title: " + res_val[i][2] + "\n";
+            content += "Title: " + res_val[i][3] + "\n";
+            content += "Title: " + res_val[i][4] + "\n";
+            content += "Coordonnées: " + res_val[i][5] + " " + res_val[i][6] + "\n\n";
+        }
+        $("#results").html(content);
+    });
+
+
+</script>
+</body>
+</html>
