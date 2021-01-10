@@ -6,6 +6,7 @@ def dbConnect(dbName):
     conn = sqlite3.connect(dbName)
     return conn
 
+
 def setupDatabase():
     spacer = "================================"
     print(spacer)
