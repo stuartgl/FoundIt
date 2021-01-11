@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/python3
 import sys, getopt
+import hashlib
 import sqlite3
 import json
 
@@ -28,8 +29,9 @@ def setupDatabase(findings_json):
                         description TEXT NOT NULL,                     
                         impact TEXT NOT NULL, 
                         recommendation TEXT NOT NULL, 
-                        refs TEXT NOT NULL
-                    )#TODO: add hash
+                        refs TEXT NOT NULL,
+                        md5 TEXT NOT NULL
+                    )
                 ''')
 
     #Read contents of json into dd
@@ -39,6 +41,11 @@ def setupDatabase(findings_json):
         data = json.load(json_file)
         print("Populating database using: "+findings_json+" "+"("+str(len(data['findings']))+" findings)")
         for record in data['findings']:
+
+            #MD5 of the finding to avoid dupes on the id in the JSON. Not used ATM, but seems like a good idea.
+            #Yes it's only MD5: It's a checksum, deal with it.
+            finding_hash = (hashlib.md5(str(record['title']+record['category']).encode())).hexdigest()
+
             c.execute('''INSERT INTO findings(
                                 id, 
                                 title, 
@@ -48,9 +55,10 @@ def setupDatabase(findings_json):
                                 description, 
                                 impact, 
                                 recommendation, 
-                                refs
+                                refs,
+                                md5
                             ) 
-                        VALUES (?,?,?,?,?,?,?,?,?)''',
+                        VALUES (?,?,?,?,?,?,?,?,?,?)''',
                           (
                                 record['id'],
                                 record['title'],
@@ -60,7 +68,8 @@ def setupDatabase(findings_json):
                                 record['description'],
                                 record['impact'],
                                 record['recommendation'],
-                                record['references']
+                                record['references'],
+                                finding_hash,
                           )
                       )
             conn.commit()
@@ -72,7 +81,7 @@ def setupDatabase(findings_json):
 def usageInstructions():
     print("When the script is running, type a keyword to search the DB, which is populated by the JSON file.")
     print("")
-    print("Field names: id|title|cvss|category|overview|description|impact|recommendation|refs")
+    print("Field names: id|title|cvss|category|overview|description|impact|recommendation|refs|MD5#(title + category)")
     print("")
     print("Examples:")
     print("Python: SSL (return)")
