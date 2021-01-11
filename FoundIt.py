@@ -2,13 +2,13 @@
 import sqlite3
 import json
 
+spacer = "================================"
+
 def dbConnect(dbName):
     conn = sqlite3.connect(dbName)
     return conn
 
-
 def setupDatabase():
-    spacer = "================================"
     print(spacer)
     print("Welcome to FoundIt - Your local pentest findings repo!")
     #Create sqlite connection
@@ -17,15 +17,16 @@ def setupDatabase():
     #Destroy and setup table structure
     c.execute('DROP TABLE IF EXISTS findings')
     c.execute('''CREATE TABLE findings( 
-                    id INT NOT NULL, 
-                    title TEXT NOT NULL, 
-                    cvss REAL, 
-                    category TEXT,                    
-                    overview TEXT NOT NULL, 
-                    description TEXT NOT NULL,                     
-                    impact TEXT NOT NULL, 
-                    recommendation TEXT NOT NULL, 
-                    refs TEXT NOT NULL)
+                        id INT NOT NULL, 
+                        title TEXT NOT NULL, 
+                        cvss REAL, 
+                        category TEXT,                    
+                        overview TEXT NOT NULL, 
+                        description TEXT NOT NULL,                     
+                        impact TEXT NOT NULL, 
+                        recommendation TEXT NOT NULL, 
+                        refs TEXT NOT NULL
+                    )
                 ''')
 
     #Read contents of json into dd
@@ -36,8 +37,30 @@ def setupDatabase():
         data = json.load(json_file)
         print("Populating database using: "+findings_json+" "+"("+str(len(data['findings']))+" findings)")
         for record in data['findings']:
-            c.execute('INSERT INTO findings (id, title, cvss, category, overview, description, impact, recommendation, refs) VALUES (?,?,?,?,?,?,?,?,?)',
-                      (record['id'], record['title'], record['cvss'], record['category'], record['overview'], record['description'], record['impact'],record['recommendation'],record['references']))
+            c.execute('''INSERT INTO findings(
+                                id, 
+                                title, 
+                                cvss, 
+                                category, 
+                                overview, 
+                                description, 
+                                impact, 
+                                recommendation, 
+                                refs
+                            ) 
+                        VALUES (?,?,?,?,?,?,?,?,?)''',
+                          (
+                                record['id'],
+                                record['title'],
+                                record['cvss'],
+                                record['category'],
+                                record['overview'],
+                                record['description'],
+                                record['impact'],
+                                record['recommendation'],
+                                record['references']
+                          )
+                      )
             conn.commit()
         print(spacer)
         print("Database built")
@@ -55,7 +78,6 @@ def usageInstructions():
     print("GUI: python -m SimpleHTTPServer 8090 | firefox http://localhost:8090")
 
 def interactiveUser():
-    spacer="================================"
     conn = dbConnect('findings_db.sqlite')
     c = conn.cursor()
     print("")
