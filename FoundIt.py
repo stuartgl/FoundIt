@@ -34,9 +34,9 @@ def setupDatabase(findings_json):
                     )
                 ''')
 
-    #Read contents of json into dd
     print(spacer)
 
+    #Read contents of json into dd
     with open(findings_json, "r") as json_file:
         data = json.load(json_file)
         print("Populating database using: "+findings_json+" "+"("+str(len(data['findings']))+" findings)")
