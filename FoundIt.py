@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #!/usr/bin/python3
 import sys, getopt
 import hashlib
@@ -14,7 +13,7 @@ def dbConnect(dbName):
 
 def setupDatabase(findings_json):
     print(spacer)
-    print("Welcome to FoundIt - Your local pentest findings repo!")
+    print("FoundIt - The local pentest findings repository")
     #Create sqlite connection
     conn = dbConnect('findings_db.sqlite')
     c = conn.cursor()
