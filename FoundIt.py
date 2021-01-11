@@ -97,11 +97,13 @@ def interactiveUser():
 
     c.execute("SELECT * FROM findings WHERE title LIKE ?", (name,))
     rows = c.fetchall()
-
-    for row in rows:
-        print(spacer)
-        print (row)
-        print(spacer)
+    if (len(rows) >= 1):
+        for row in rows:
+            print(spacer)
+            print (row)
+            print(spacer)
+    else:
+        print ("Nothing found. You should probably write it and add it to the repo.")
 
     interactiveUser()
 
