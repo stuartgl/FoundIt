@@ -1,14 +1,17 @@
 # -*- coding: utf-8 -*-
+#!/usr/bin/python3
+import sys, getopt
 import sqlite3
 import json
 
 spacer = "================================"
 
+
 def dbConnect(dbName):
     conn = sqlite3.connect(dbName)
     return conn
 
-def setupDatabase():
+def setupDatabase(findings_json):
     print(spacer)
     print("Welcome to FoundIt - Your local pentest findings repo!")
     #Create sqlite connection
@@ -26,13 +29,12 @@ def setupDatabase():
                         impact TEXT NOT NULL, 
                         recommendation TEXT NOT NULL, 
                         refs TEXT NOT NULL
-                    )
+                    )#TODO: add hash
                 ''')
 
     #Read contents of json into dd
-    #TODO: make this an argument
-    findings_json = "findings_db.json"
     print(spacer)
+
     with open(findings_json, "r") as json_file:
         data = json.load(json_file)
         print("Populating database using: "+findings_json+" "+"("+str(len(data['findings']))+" findings)")
@@ -68,7 +70,7 @@ def setupDatabase():
     conn.close()
 
 def usageInstructions():
-    print("Type your search term below as a keyword or use a browser to interact with the database.")
+    print("When the script is running, type a keyword to search the DB, which is populated by the JSON file.")
     print("")
     print("Field names: id|title|cvss|category|overview|description|impact|recommendation|refs")
     print("")
@@ -95,13 +97,35 @@ def interactiveUser():
 
     interactiveUser()
 
-def main():
-    setupDatabase()
+def main(argv):
+    findings_json = "findings_db.json"
+    inputfile = ''
+    outputfile = ''
+    try:
+        opts, args = getopt.getopt(argv, "hi:o:", ["ifile=", "ofile="])
+    except getopt.GetoptError:
+        print('test.py -i <inputfile> -o <outputfile>')
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt == '-h':
+            usageInstructions()
+            sys.exit()
+        elif opt in ("-i", "--ifile"):
+            try:
+                f = open(arg, 'r')
+            except OSError:
+                print("Unable to open, are you sure this is the JSON file you're looking for? :", arg)
+                sys.exit()
+            findings_json = arg
+            print ("Using "+findings_json)
+        elif opt in ("-o", "--ofile"):
+            print ("Thanks for the output file, but this function is not yet supported. Ask again later.")
+            sys.exit()
+
+    setupDatabase(findings_json)
     usageInstructions()
     interactiveUser()
 
 
-
-
 if __name__ == "__main__":
-    main()
+   main(sys.argv[1:])
