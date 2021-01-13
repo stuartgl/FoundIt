@@ -3,6 +3,7 @@ import sys, getopt
 import hashlib
 import sqlite3
 import json
+import argparse
 
 spacer = "================================"
 
@@ -20,7 +21,6 @@ def setupDatabase(findings_json):
     #Destroy and setup table structure
     c.execute('DROP TABLE IF EXISTS findings')
     c.execute('''CREATE TABLE findings( 
-                        id INT NOT NULL, 
                         title TEXT NOT NULL, 
                         cvss REAL, 
                         category TEXT,                    
@@ -29,9 +29,10 @@ def setupDatabase(findings_json):
                         impact TEXT NOT NULL, 
                         recommendation TEXT NOT NULL, 
                         refs TEXT NOT NULL,
+                        dated TEXT NOT NULL, 
                         md5 TEXT NOT NULL
                     )
-                ''')
+                ''')#TODO: make date correct type
 
     print(spacer)
 
@@ -46,7 +47,6 @@ def setupDatabase(findings_json):
             finding_hash = (hashlib.md5(str(record['title']+record['category']).encode())).hexdigest()
 
             c.execute('''INSERT INTO findings(
-                                id, 
                                 title, 
                                 cvss, 
                                 category, 
@@ -55,11 +55,11 @@ def setupDatabase(findings_json):
                                 impact, 
                                 recommendation, 
                                 refs,
+                                dated,
                                 md5
                             ) 
                         VALUES (?,?,?,?,?,?,?,?,?,?)''',
                           (
-                                record['id'],
                                 record['title'],
                                 record['cvss'],
                                 record['category'],
@@ -68,6 +68,7 @@ def setupDatabase(findings_json):
                                 record['impact'],
                                 record['recommendation'],
                                 record['references'],
+                                record['dated'],
                                 finding_hash,
                           )
                       )
@@ -77,22 +78,25 @@ def setupDatabase(findings_json):
         print(spacer)
     conn.close()
 
+    usageInstructions()
+
 def usageInstructions():
-    print("When the script is running, type a keyword to search the DB, which is populated by the JSON file.")
-    print("")
-    print("Field names: id|title|cvss|category|overview|description|impact|recommendation|refs|MD5#(title + category)")
-    print("")
+    print("Usage:")
+    print("When the script is running, type a keyword to search the DB, which is populated by the JSON file.\n")
+    print("Field names:\n"
+          "id|title|cvss|category|overview|description|impact|recommendation|refs|MD5#(title + category + dated)\n")
     print("Examples:")
     print("Python: SSL (return)")
     print("SQLite: sqlite3 findings_db.sqlite \"select * from findings where title like '%ssl%'\"")
-    print("GUI: python -m SimpleHTTPServer 8090 | firefox http://localhost:8090")
+    print("GUI: python -m SimpleHTTPServer 8090 | firefox http://localhost:8090\n")
 
-def interactiveUser():
+#Todo: add a one shot mode, to search for a keyword via argument
+def searchFor(keyword):
     conn = dbConnect('findings_db.sqlite')
     c = conn.cursor()
-    print("")
+
     name = '%'
-    name += input("Keyword: ")
+    name += keyword
     name += '%'
 
     c.execute("SELECT * FROM findings WHERE title LIKE ?", (name,))
@@ -105,36 +109,48 @@ def interactiveUser():
     else:
         print ("Nothing found. You should probably write it and add it to the repo.")
 
+def interactiveUser():
+    print("")
+    interactiveKeyword = '%'
+    interactiveKeyword += input("Keyword: ")
+    interactiveKeyword += '%'
+    searchFor(interactiveKeyword)
     interactiveUser()
 
 def main(argv):
-    findings_json = "findings_db.json"
-    inputfile = ''
-    outputfile = ''
-    try:
-        opts, args = getopt.getopt(argv, "hi:o:", ["ifile=", "ofile="])
-    except getopt.GetoptError:
-        print('test.py -i <inputfile> -o <outputfile>')
-        sys.exit(2)
-    for opt, arg in opts:
-        if opt == '-h':
-            usageInstructions()
-            sys.exit()
-        elif opt in ("-i", "--ifile"):
-            try:
-                f = open(arg, 'r')
-            except OSError:
-                print("Unable to open, are you sure this is the JSON file you're looking for? :", arg)
-                sys.exit()
-            findings_json = arg
-            print ("Using "+findings_json)
-        elif opt in ("-o", "--ofile"):
-            print ("Thanks for the output file, but this function is not yet supported. Ask again later.")
-            sys.exit()
 
-    setupDatabase(findings_json)
-    usageInstructions()
-    interactiveUser()
+    findings_json = "findings_db.json"
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-V", "--version", help="Show program version and usage info", action="store_true")
+    parser.add_argument("-k", "--keyword", help="Supply a search keyword")
+    parser.add_argument("-i", "--input", help="Supply a JSON file to build the database")
+    parser.add_argument("-c", "--interactive", help="Enter interactive mode", action='store_true')
+    # Read arguments from the command line
+    args = parser.parse_args()
+
+    if args.version:
+        print("This is version 0.1")
+        usageInstructions()
+    elif args.input:
+        print("Thanks for the input file")
+        findings_json = args.input
+        try:
+            f = open(findings_json, 'r')
+        except OSError:
+            print("Unable to open, are you sure this is the JSON file you're looking for? : ", findings_json)
+            sys.exit()
+        print("Using " + findings_json)
+        setupDatabase(findings_json)
+    elif args.keyword:
+        print ("Searching for: ", args.keyword)
+        searchFor(args.keyword)
+    elif args.interactive:
+        print ("Entering interactive mode (CTRL+C to escape)")
+        interactiveUser()
+
+
+
 
 
 if __name__ == "__main__":

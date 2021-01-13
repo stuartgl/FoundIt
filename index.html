@@ -63,14 +63,14 @@
 
 
                 for (var i=0; i < res_val.length; i++) {
-                    content += htmlEncode("JSON ID: " + res_val[i][0] + "\n");
-                    content += htmlEncode("Title: " + res_val[i][1] + " (CVSS: "+res_val[i][2]+")\n");
-                    content += htmlEncode("Category: " + res_val[i][3] + "\n\n");
-                    content += htmlEncode("Overview: " + res_val[i][4] + "\n");
-                    content += htmlEncode("Description: " + res_val[i][5] + "\n");
-                    content += htmlEncode("Impact: " + res_val[i][6] + "\n");
-                    content += htmlEncode("Recmmendation: " + res_val[i][7] + "\n");
-                    content += htmlEncode("References: " + res_val[i][8] + "\n\n");
+                    content += htmlEncode("Title: " + res_val[i][0] + " (CVSS: "+res_val[i][2]+")\n");
+                    content += htmlEncode("Category: " + res_val[i][2] + "\n\n");
+                    content += htmlEncode("Overview: " + res_val[i][3] + "\n");
+                    content += htmlEncode("Description: " + res_val[i][4] + "\n");
+                    content += htmlEncode("Impact: " + res_val[i][5] + "\n");
+                    content += htmlEncode("Recmmendation: " + res_val[i][6] + "\n");
+                    content += htmlEncode("References: " + res_val[i][7] + "\n\n");
+                    content += htmlEncode("Dated: " + res_val[i][8] + "\n\n");
                     content += "Hash: " + res_val[i][9] + "\n\n<hr>";
                 }
                 $("#results").html(content);
