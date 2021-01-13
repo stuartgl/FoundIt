@@ -37,8 +37,8 @@ def setupDatabase(findings_json):
                         description TEXT NOT NULL,                     
                         impact TEXT NOT NULL, 
                         recommendation TEXT NOT NULL, 
-                        refs TEXT NOT NULL,
-                        dated TEXT NOT NULL, 
+                        refs TEXT,
+                        dated TEXT, 
                         md5 TEXT NOT NULL
                     )
                 ''')#TODO: make date correct type
