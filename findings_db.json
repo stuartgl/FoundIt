@@ -1,7 +1,6 @@
 {
    "findings":[
       {
-         "id":0,
          "title":"Template",
          "cvss":0.0,
          "category":"==",
@@ -9,10 +8,10 @@
          "description":"",
          "impact":"",
          "recommendation":"",
-         "references":""
+         "references":"",
+         "dated":""
       },
       {
-         "id":1,
          "title":"Example Finding",
          "cvss":0.0,
          "category":"=Generic Section=",
@@ -20,51 +19,52 @@
          "description":"The full technical description of a finding. \nAlso include the ouput of evidence here.",
          "impact":"How a successful attack will affect the organisation.",
          "recommendation":"How to fix or mitigate the issue.",
-         "references":"https://github.com/stuartgl"
+         "references":"https://github.com/stuartgl",
+         "dated":""
       },
       {
-         "id":2,
          "title":"SSL v2 in use",
-         "cvss":4.4,
+         "cvss":1.1,
          "category":"=Inf=",
          "overview":"SSL v2 is too old for this day and age.",
          "description":"SSL v2 is too old for this day and age. Weak crypto is bad karma.",
          "impact":"Attackers sniffing traffic and such like.",
          "recommendation":"TLS, bigger numbers are better.",
-         "references":"https://nmap.org/nsedoc/scripts/sslv2.html"
+         "references":"https://nmap.org/nsedoc/scripts/sslv2.html",
+         "dated":""
       },
       {
-         "id":3,
          "title":"SSL v3 in use",
-         "cvss":5.4,
+         "cvss":1.1,
          "category":"=Inf=",
          "overview":"SSL v3 is too old for this day and age.",
          "description":"SSL v3 is too old for this day and age. Weak crypto is bad for business.",
          "impact":"Attackers sniffing traffic and such like.",
          "recommendation":"TLS, bigger numbers are better.",
-         "references":"https://nmap.org/nsedoc/scripts/sslv3.html"
+         "references":"https://nmap.org/nsedoc/scripts/sslv3.html",
+         "dated":""
       },
       {
-         "id":4,
          "title":"Reflected XSS",
-         "cvss":4.4,
+         "cvss":1.1,
          "category":"=Web=",
          "overview":"The Javascript, it runs.",
          "description":"An attacker could do things detrimental to the other things.",
          "impact":"Attackers win.",
          "recommendation":"TLS, bigger numbers are better.",
-         "references":""
+         "references":"",
+         "dated":""
       },
       {
-         "id":5,
          "title":"Stored XSS",
-         "cvss":6.4,
+         "cvss":1.1,
          "category":"=Web=",
          "overview":"The Javascript, it is saved.",
          "description":"An attacker could leave the bad code for the innocents to run. <script>alert('If you see this as a popup, enjoy the irony -FoundIt');</script>",
          "impact":"Attackers win\nBig time bad time.",
          "recommendation":"TLS, bigger numbers are better.",
-         "references":""
+         "references":"",
+         "dated":""
       }
    ]
 }
