@@ -7,6 +7,15 @@ import argparse
 
 spacer = "================================"
 
+def usageInstructions():
+    print("Usage: Supply a keyword to search the DB, which is populated by the JSON file.\n")
+    print("Either do this using the -k [keyword] option or via interactive mode -c.\n")
+    print("Field names:\n"
+          "id|title|cvss|category|overview|description|impact|recommendation|refs|MD5#(title + category + dated)\n")
+    print("Examples:")
+    print("Python: python3 FoundIt.py -k \"stored xss\"")
+    print("SQLite: sqlite3 findings_db.sqlite \"select * from findings where title like '%ssl%'\"")
+    print("GUI: python -m SimpleHTTPServer 8090 | firefox http://localhost:8090\n")
 
 def dbConnect(dbName):
     conn = sqlite3.connect(dbName)
@@ -14,10 +23,10 @@ def dbConnect(dbName):
 
 def setupDatabase(findings_json):
     print(spacer)
-    print("FoundIt - The local pentest findings repository")
     #Create sqlite connection
     conn = dbConnect('findings_db.sqlite')
     c = conn.cursor()
+
     #Destroy and setup table structure
     c.execute('DROP TABLE IF EXISTS findings')
     c.execute('''CREATE TABLE findings( 
@@ -44,7 +53,7 @@ def setupDatabase(findings_json):
 
             #MD5 of the finding to avoid dupes on the id in the JSON. Not used ATM, but seems like a good idea.
             #Yes it's only MD5: It's a checksum, deal with it.
-            finding_hash = (hashlib.md5(str(record['title']+record['category']).encode())).hexdigest()
+            finding_hash = (hashlib.md5(str(record['title']+record['category']+record['dated']).encode())).hexdigest()
 
             c.execute('''INSERT INTO findings(
                                 title, 
@@ -73,22 +82,24 @@ def setupDatabase(findings_json):
                           )
                       )
             conn.commit()
-        print(spacer)
-        print("Database built")
-        print(spacer)
+        print(spacer+"\nDatabase built\n"+spacer)
     conn.close()
 
-    usageInstructions()
+def tryDatabase(findings_json):
+    conn = dbConnect('findings_db.sqlite')
+    c = conn.cursor()
+    #c.execute('DROP TABLE IF EXISTS findings')
 
-def usageInstructions():
-    print("Usage:")
-    print("When the script is running, type a keyword to search the DB, which is populated by the JSON file.\n")
-    print("Field names:\n"
-          "id|title|cvss|category|overview|description|impact|recommendation|refs|MD5#(title + category + dated)\n")
-    print("Examples:")
-    print("Python: SSL (return)")
-    print("SQLite: sqlite3 findings_db.sqlite \"select * from findings where title like '%ssl%'\"")
-    print("GUI: python -m SimpleHTTPServer 8090 | firefox http://localhost:8090\n")
+    name = '%'
+    name += "keyword"
+    name += '%'
+
+    try:
+        c.execute('SELECT count(title) FROM findings')
+    except sqlite3.Error as error:
+        print("(Re)building Database")
+        setupDatabase(findings_json)
+
 
 #Todo: add a one shot mode, to search for a keyword via argument
 def searchFor(keyword):
@@ -102,15 +113,16 @@ def searchFor(keyword):
     c.execute("SELECT * FROM findings WHERE title LIKE ?", (name,))
     rows = c.fetchall()
     if (len(rows) >= 1):
+        print (spacer)
+        print(f"Found {len(rows)} result(s):")
         for row in rows:
             print(spacer)
-            print (row)
+            print(str(row))
             print(spacer)
     else:
-        print ("Nothing found. You should probably write it and add it to the repo.")
+        print (spacer+"\nNothing found. You should probably write it and add it to the repo.\n")
 
 def interactiveUser():
-    print("")
     interactiveKeyword = '%'
     interactiveKeyword += input("Keyword: ")
     interactiveKeyword += '%'
@@ -118,35 +130,35 @@ def interactiveUser():
     interactiveUser()
 
 def main(argv):
-
     findings_json = "findings_db.json"
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("-V", "--version", help="Show program version and usage info", action="store_true")
-    parser.add_argument("-k", "--keyword", help="Supply a search keyword")
-    parser.add_argument("-i", "--input", help="Supply a JSON file to build the database")
+    parser.add_argument("-V", "--version", help="show program version and usage info", action="store_true")
+    parser.add_argument("-k", "--keyword", help="supply a search keyword")
+    parser.add_argument("-i", "--input", help="supply a JSON file to build the database")
     parser.add_argument("-c", "--interactive", help="Enter interactive mode", action='store_true')
     # Read arguments from the command line
     args = parser.parse_args()
 
     if args.version:
+        print("FoundIt - The local pentest findings repository")
         print("This is version 0.1")
         usageInstructions()
     elif args.input:
-        print("Thanks for the input file")
         findings_json = args.input
         try:
             f = open(findings_json, 'r')
         except OSError:
-            print("Unable to open, are you sure this is the JSON file you're looking for? : ", findings_json)
+            print("ERR: Unable to open input file, are you sure this is the right JSON file? : ", findings_json)
             sys.exit()
         print("Using " + findings_json)
         setupDatabase(findings_json)
     elif args.keyword:
-        print ("Searching for: ", args.keyword)
+        tryDatabase(findings_json)
+        print (spacer+"\nSearching for: ", args.keyword)
         searchFor(args.keyword)
     elif args.interactive:
-        print ("Entering interactive mode (CTRL+C to escape)")
+        print (spacer+" Entering interactive mode (CTRL+C to escape) "+spacer)
         interactiveUser()
 
 
