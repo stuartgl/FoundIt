@@ -11,11 +11,11 @@ def usageInstructions():
     print("Usage: Supply a keyword to search the DB, which is populated by the JSON file.\n")
     print("Either do this using the -k [keyword] option or via interactive mode -c.\n")
     print("Field names:\n"
-          "id|title|cvss|category|overview|description|impact|recommendation|refs|MD5#(title + category + dated)\n")
+          "title|cvss|category|overview|description|impact|recommendation|refs|MD5#(title + category + dated)\n")
     print("Examples:")
     print("Python: python3 FoundIt.py -k \"stored xss\"")
     print("SQLite: sqlite3 findings_db.sqlite \"select * from findings where title like '%ssl%'\"")
-    print("GUI: python -m SimpleHTTPServer 8090 | firefox http://localhost:8090\n")
+    print("Web GUI: python -m SimpleHTTPServer 8090 | firefox http://localhost:8090\n")
 
 def dbConnect(dbName):
     conn = sqlite3.connect(dbName)
