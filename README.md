@@ -34,7 +34,7 @@ git clone https://github.com/stuartgl/FoundIt
 
 To search via keyword or phrase (-k keyword):
 
-```bash
+```python3
 $ python3 FoundIt.py -k xss
 ================================
 Searching for:  xss
@@ -69,7 +69,7 @@ Database built
 ```
 
 To enter interactive mode (-c):
-```bash
+```python3
 $ python3 FoundIt.py -c
 ================================ Entering interactive mode (CTRL+C to escape) ================================
 Keyword: ssl
@@ -81,7 +81,7 @@ Found 2 result(s):
 ```
 
 To search the DB directly:
-```bash
+```sqlite3
 $ sqlite3 findings_db.sqlite "select * from findings where title like '%ssl%'"
 SSL v2 in use|1.1|=Inf=|SSL v2 is too old for this day and age.|SSL v2 is too old for this day and age. Weak crypto is bad karma.|Attackers sniffing traffic and such like.|TLS, bigger numbers are better.|https://nmap.org/nsedoc/scripts/sslv2.html||5ef24f5824208ee7fe1a6fdf9b85e8aa
 SSL v3 in use|1.1|=Inf=|SSL v3 is too old for this day and age.|SSL v3 is too old for this day and age. Weak crypto is bad for business.|Attackers sniffing traffic and such like.|TLS, bigger numbers are better.|https://nmap.org/nsedoc/scripts/sslv3.html||51cd054352336bd374839b2bc826a878
@@ -91,7 +91,7 @@ ___(Beta) There is also an index.html file in the root which will make calls to 
 
 There is the vague ambition of using this as the basis for a report generator, but at the moment only basic search functionality is in place. Sometimes it throws CORS errors. Working on fixing this/building the web interface out further/implementing a proper design is low on my list of things #TODO.___
 
-```bash
+```python
 python -m SimpleHTTPServer 8090 | firefox http://localhost:8090
 ```
 
