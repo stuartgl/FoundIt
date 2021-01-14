@@ -5,22 +5,22 @@ FoundIt is a local pentest findings search engine.
 ## Description
 
 The use case for FoundIt is something along the lines of:
-*Pentester is sent onsite to perform security assessment in a location:
-    *Without internet connectivity; and
-    *With strict confidentiality requirements (read: laptop and test data stay on prem)
-*Testing is completed and issues are found
-*Consultant now has the fun of: 
-    *Jumping through hoops to get the boilerplate findings from the company wiki/findings DB into the test machine so they can write the report. 
-    *Jumping through even more hoops to get the ~REDACTED~ list of findings out to a machine where they can access the company findings DB and run M$ Word to write the ~REDACTED~ report there instead.
-    *Writing the report findings from memory there and then (likely without QA if they are testing alone) so they client can receive their typo laden report immediately.  
-    *Copy+Pasta of the findings from the VA tool and remember to amend: "~Nessus~ ConsulancyInc detected CGI Generic SQL Injection".
+* Pentester is sent onsite to perform security assessment in a location:
+    * Without internet connectivity; and
+    * With strict confidentiality requirements (read: laptop and test data stay on prem)
+* Testing is completed and issues are found
+* Consultant now has the fun of: 
+    * Jumping through hoops to get the boilerplate findings from the company wiki/findings DB into the test machine so they can write the report. 
+    * Jumping through even more hoops to get the ~REDACTED~ list of findings out to a machine where they can access the company findings DB and run M$ Word to write the ~REDACTED~ report there instead.
+    * Writing the report findings from memory there and then (likely without QA if they are testing alone) so they client can receive their typo laden report immediately.  
+    * Copy+Pasta of the findings from the VA tool and remember to amend: "~Nessus~ ConsulancyInc detected CGI Generic SQL Injection".
     
 Or
-*Do the work upfront of parsing the existing findings database into JSON.
-*Clone this/your forked repo and drop that JSON file on to the test machine just before going dark.
-*Search the findings locally onsite without having to spin up your own small docker datacenter to run a clone of the company findings wiki
+* Do the work upfront of parsing the existing findings database into JSON.
+* Clone this/your forked repo and drop that JSON file on to the test machine just before going dark.
+* Search the findings locally onsite without having to spin up your own small docker datacenter to run a clone of the company findings wiki
 
-**NB: At present this repository is not shipping with template findings beyond those which demonstrate rudimentary functionaility. 
+__NB: At present this repository is not shipping with template findings beyond those which demonstrate rudimentary functionaility.__
 
 You will need to fork to your own repo and parse your own findings into it. If you don't have a company findings DB then I feel your pain, get in touch and I can help.
 
@@ -59,7 +59,7 @@ Found 1 result(s):
 ```
 
 To specify your own findings JSON and rebuild the local database (-i):
-NB - Any existing DB is dropped on rebuild.
+__NB: Any existing 'findings' table is dropped on rebuild.__
 
 ```
 $ python3 FoundIt.py -i findings_db.json
@@ -101,11 +101,15 @@ python -m SimpleHTTPServer 8090 | firefox http://localhost:8090
 
 ### Technical details
 
-On launch the script will attempt to build a local SQLite DB (called 'findings_db.sqlite') and populate a table (called 'findings') from the findings_db.json file, or the file specified if the -i flag is given an argument.
+On launch the script will attempt to create a local SQLite DB (called 'findings_db.sqlite') and populate a table (called 'findings') from the findings_db.json file, or the file specified if the -i flag is given an argument.
+
+Any local 'findings' table will be dropped. Sorry if you had something in there, it's gone now.
 
 An example format of the findings JSON is shown below, but you should refer to the file directly as this documentation is more likely to fall behind with any changes to fields.
 
-```
+During build of the database, an MD5 hash is generated from title, category and date fields at a vague attempt to keep tabs on when something changes/which version of a finding was used. This hash is currently for display purposes only and not actively used anywhere further down the line. Initially findings had IDs, but this will become a headache if multiple people are working on the JSON and updating it with their own new entries. Suggestions welcome on a better way to track these. 
+
+```javascript
 {
    "findings":[
       {
