@@ -87,9 +87,9 @@ SSL v2 in use|1.1|=Inf=|SSL v2 is too old for this day and age.|SSL v2 is too ol
 SSL v3 in use|1.1|=Inf=|SSL v3 is too old for this day and age.|SSL v3 is too old for this day and age. Weak crypto is bad for business.|Attackers sniffing traffic and such like.|TLS, bigger numbers are better.|https://nmap.org/nsedoc/scripts/sslv3.html||51cd054352336bd374839b2bc826a878
 ```
 
-___(Beta) There is also an index.html file in the root which will make calls to the same DB if accessed via a web server such as python's simpleHTTPServer module. ___
+(Beta) There is also an index.html file in the root which will make calls to the same DB if accessed via a web server such as python's simpleHTTPServer module. 
 
-There is the vague ambition of using this as the basis for a report generator, but at the moment only basic search functionality is in place. Sometimes it throws CORS errors. Working on fixing this/building the web interface out further/implementing a proper design is low on my list of things #TODO.___
+There is the vague ambition of using this as the basis for a report generator, but at the moment only basic search functionality is in place. Sometimes it throws CORS errors. Working on fixing this/building the web interface out further/implementing a proper design is low on my list of things #TODO.
 
 ```python
 python -m SimpleHTTPServer 8090 | firefox http://localhost:8090
