@@ -51,8 +51,7 @@ def setupDatabase(findings_json):
         print("Populating database using: "+findings_json+" "+"("+str(len(data['findings']))+" findings)")
         for record in data['findings']:
 
-            #MD5 of the finding to avoid dupes on the id in the JSON. Not used ATM, but seems like a good idea.
-            #Yes it's only MD5: It's a checksum, deal with it.
+            #MD5 of the finding. Not used ATM, but seems like a good idea.
             finding_hash = (hashlib.md5(str(record['title']+record['category']+record['dated']).encode())).hexdigest()
 
             c.execute('''INSERT INTO findings(
@@ -88,7 +87,6 @@ def setupDatabase(findings_json):
 def tryDatabase(findings_json):
     conn = dbConnect('findings_db.sqlite')
     c = conn.cursor()
-    #c.execute('DROP TABLE IF EXISTS findings')
 
     name = '%'
     name += "keyword"
@@ -135,6 +133,7 @@ def main(argv):
     parser.add_argument("-k", "--keyword", help="supply a search keyword")
     parser.add_argument("-i", "--input", help="supply a JSON file to build the database")
     parser.add_argument("-c", "--interactive", help="Enter interactive mode", action='store_true')
+
     # Read arguments from the command line
     args = parser.parse_args()
 
