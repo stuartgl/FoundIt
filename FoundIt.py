@@ -116,9 +116,8 @@ def searchFor(keyword):
         print (spacer)
         print(f"Found {len(rows)} result(s):")
         for row in rows:
-            print(spacer)
             print(str(row))
-            print(spacer)
+
     else:
         print (spacer+"\nNothing found. You should probably write it and add it to the repo.\n")
 
