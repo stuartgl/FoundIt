@@ -20,7 +20,7 @@ Or
 * Clone this/your forked repo and drop that JSON file on to the test machine just before going dark.
 * Search the findings locally without having to spin up your own docker datacenter to run a clone of the company findings wiki (or just ctrl+f the JSON file that I forced you to make)
 
-__NB: At present this repository is not shipping with template findings beyond those which demonstrate rudimentary functionaility.__
+__NB: At present this repository is not shipping with template findings beyond those which demonstrate rudimentary functionality.__
 
 You will need to fork to your own repo and parse your own findings into it. If you don't have a company findings DB then I feel your pain, get in touch and I can help.
 
@@ -136,7 +136,7 @@ During build of the database, an MD5 hash is generated from title, category and 
 }
 ``` 
 
-__NB: At present this repository is not shipping with template findings beyond those which demonstrate rudimentary functionaility.__ 
+__NB: At present this repository is not shipping with template findings beyond those which demonstrate rudimentary functionality.__ 
 
 If anybody knows where I can find a list of open source findings or wants to help in turning this into a full on report generator, please drop me a note.
  
