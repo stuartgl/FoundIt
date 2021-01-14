@@ -21,7 +21,7 @@
          "impact":"TEXT NOT NULL: How a successful attack will affect the organisation.",
          "recommendation":"TEXT NOT NULL: How to fix or mitigate the issue.",
          "references":"TEXT: https://github.com/stuartgl",
-         "dated":"TEXT: YYYY-MM-DD",
+         "dated":"TEXT: YYYY-MM-DD HH:MM:SS.SSS",
          "md5": "TEXT NOT NULL: Generated at runtime from title + category + dated"
       },
       {
@@ -33,7 +33,7 @@
          "impact":"Attackers sniffing traffic and such like.",
          "recommendation":"TLS, bigger numbers are better.",
          "references":"https://nmap.org/nsedoc/scripts/sslv2.html",
-         "dated":"2020-01-12",
+         "dated":"2020-01-12 HH:MM:SS.SSS",
          "md5": ""
       },
       {
@@ -45,7 +45,7 @@
          "impact":"Attackers sniffing traffic and such like.",
          "recommendation":"TLS, bigger numbers are better.",
          "references":"https://nmap.org/nsedoc/scripts/sslv3.html",
-         "dated":"2020-01-13",
+         "dated":"2020-01-13 HH:MM:SS.SSS",
          "md5": ""
       },
       {
@@ -57,7 +57,7 @@
          "impact":"Attackers win.",
          "recommendation":"Escape is the only way.",
          "references":"",
-         "dated":"2020-01-14",
+         "dated":"2020-01-14 HH:MM:SS.SSS",
          "md5": ""
       },
       {
@@ -69,7 +69,7 @@
          "impact":"Attackers win\nBad times.",
          "recommendation":"Escape is the only way.",
          "references":"",
-         "dated":"2020-01-11",
+         "dated":"2020-01-11 HH:MM:SS.SSS",
          "md5": ""
       }
    ]

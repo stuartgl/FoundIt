@@ -41,7 +41,7 @@ def setupDatabase(findings_json):
                         dated TEXT, 
                         md5 TEXT NOT NULL
                     )
-                ''')#TODO: make date correct type
+                ''')
 
     print(spacer)
 
@@ -101,7 +101,6 @@ def tryDatabase(findings_json):
         setupDatabase(findings_json)
 
 
-#Todo: add a one shot mode, to search for a keyword via argument
 def searchFor(keyword):
     conn = dbConnect('findings_db.sqlite')
     c = conn.cursor()
