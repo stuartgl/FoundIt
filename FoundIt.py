@@ -45,7 +45,7 @@ def setupDatabase(findings_json):
 
     print(spacer)
 
-    #Read contents of json into dd
+    #Read contents of json into db
     with open(findings_json, "r") as json_file:
         data = json.load(json_file)
         print("Populating database using: "+findings_json+" "+"("+str(len(data['findings']))+" findings)")
@@ -150,7 +150,7 @@ def main(argv):
         except OSError:
             print("ERR: Unable to open input file, are you sure this is the right JSON file? : ", findings_json)
             sys.exit()
-        print("Using " + findings_json)
+        print(spacer+"\nUsing " + findings_json)
         setupDatabase(findings_json)
     elif args.keyword:
         tryDatabase(findings_json)

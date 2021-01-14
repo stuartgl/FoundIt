@@ -33,7 +33,7 @@
          "impact":"Attackers sniffing traffic and such like.",
          "recommendation":"TLS, bigger numbers are better.",
          "references":"https://nmap.org/nsedoc/scripts/sslv2.html",
-         "dated":"",
+         "dated":"2020-01-12",
          "md5": ""
       },
       {
@@ -45,7 +45,7 @@
          "impact":"Attackers sniffing traffic and such like.",
          "recommendation":"TLS, bigger numbers are better.",
          "references":"https://nmap.org/nsedoc/scripts/sslv3.html",
-         "dated":"",
+         "dated":"2020-01-13",
          "md5": ""
       },
       {
@@ -57,7 +57,7 @@
          "impact":"Attackers win.",
          "recommendation":"Escape is the only way.",
          "references":"",
-         "dated":"",
+         "dated":"2020-01-14",
          "md5": ""
       },
       {
@@ -69,7 +69,7 @@
          "impact":"Attackers win\nBad times.",
          "recommendation":"Escape is the only way.",
          "references":"",
-         "dated":"",
+         "dated":"2020-01-11",
          "md5": ""
       }
    ]
