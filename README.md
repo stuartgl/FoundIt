@@ -24,7 +24,7 @@ __NB: At present this repository is not shipping with template findings beyond t
 
 You will need to fork to your own repo and parse your own findings into it. If you don't have a company findings DB then I feel your pain, get in touch and I can help.
 
-If anybody knows where I can find a list of open source findings or wants to help in turning this into a full on report generator, please drop me a note.**
+If anybody knows where I can find a list of open source findings or wants to help in turning this into a full on report generator, please drop me a note.
  
 ## Installation & Usage
 
@@ -55,12 +55,11 @@ Found 1 result(s):
 ('Stored XSS', 1.1, '=Web=', 'The Javascript, it is saved.', "An attacker could leave the bad code for the innocents to run. <script>alert('If you see this as a popup, enjoy the irony -FoundIt');</script>", 'Attackers win\nBad times.', 'Escape is the only way.', '', '', 'a7ef274c72f9de212a47cec5a4f809cd')
 ```
 
-To specify your own findings JSON and rebuild the local database (-i filename.json) (any existing 'findings' table is dropped ):
+To specify your own findings JSON and rebuild the local database (-i filename.json) any existing 'findings' table is dropped:
 
 ```
 $ python3 FoundIt.py -i findings_db.json
 Using findings_db.json
-================================
 ================================
 Populating database using: findings_db.json (6 findings)
 ================================
@@ -89,7 +88,7 @@ SSL v3 in use|1.1|=Inf=|SSL v3 is too old for this day and age.|SSL v3 is too ol
 
 (Beta) There is also an index.html file in the root which will make calls to the same DB if accessed via a web server such as python's simpleHTTPServer module. 
 
-There is the vague ambition of using this as the basis for a report generator, but at the moment only basic search functionality is in place. Sometimes it throws CORS errors. Working on fixing this/building the web interface out further/implementing a proper design is low on my list of things #TODO.
+There is the vague ambition of using this as the basis for a report generator, but at the moment only basic search functionality is in place. Sometimes it throws CORS errors. Working on fixing this/building the web interface out further/implementing a proper design is low on my list of things #TODO, hence beta.
 
 ```python
 python -m SimpleHTTPServer 8090 | firefox http://localhost:8090
@@ -103,7 +102,9 @@ Any local 'findings' table will be dropped. Sorry if you had something in there,
 
 An example format of the findings JSON is shown below, but you should refer to the file directly as this documentation is more likely to fall behind with any changes to fields.
 
-During build of the database, an MD5 hash is generated from title, category and date fields at a vague attempt to keep tabs on when something changes/which version of a finding was used. This hash is currently for display purposes only and not actively used anywhere further down the line. Initially findings had IDs, but this will become a headache if multiple people are working on the JSON and updating it with their own new entries. Suggestions welcome on a better way to track these. 
+During build of the database, an MD5 hash is generated from title, category and date fields at a vague attempt to keep tabs on when something changes/which version of a finding was used. This hash is currently for display purposes only and not actively used anywhere further down the line. 
+
+(Initially findings had IDs, but this will become a headache if multiple people are working on the JSON and updating this manuall with their own new entries. Suggestions welcome on a better way to track findings or where to make use of the hash itself. 
 
 ```JSON
 {
