@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-import sys, getopt
+import sys
 import hashlib
 import sqlite3
 import json
@@ -17,9 +17,11 @@ def usageInstructions():
     print("SQLite: sqlite3 findings_db.sqlite \"select * from findings where title like '%ssl%'\"")
     print("Web GUI: python -m SimpleHTTPServer 8090 | firefox http://localhost:8090\n")
 
+
 def dbConnect(dbName):
     conn = sqlite3.connect(dbName)
     return conn
+
 
 def setupDatabase(findings_json):
     print(spacer)
@@ -84,6 +86,7 @@ def setupDatabase(findings_json):
         print(spacer+"\nDatabase built\n"+spacer)
     conn.close()
 
+
 def tryDatabase(findings_json):
     conn = dbConnect('findings_db.sqlite')
     c = conn.cursor()
@@ -118,12 +121,14 @@ def searchFor(keyword):
     else:
         print (spacer+"\nNothing found. You should probably write it and add it to the repo.\n")
 
+
 def interactiveUser():
     interactiveKeyword = '%'
     interactiveKeyword += input("Keyword: ")
     interactiveKeyword += '%'
     searchFor(interactiveKeyword)
     interactiveUser()
+
 
 def main(argv):
     findings_json = "findings_db.json"
@@ -157,9 +162,6 @@ def main(argv):
     elif args.interactive:
         print (spacer+" Entering interactive mode (CTRL+C to escape) "+spacer)
         interactiveUser()
-
-
-
 
 
 if __name__ == "__main__":
