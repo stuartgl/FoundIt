@@ -11,7 +11,7 @@ def usageInstructions():
     print("Usage: Supply a keyword to search the DB, which is populated by the JSON file.\n")
     print("Either do this using the -k [keyword] option or via interactive mode -c.\n")
     print("Field names:\n"
-          "title|cvss|category|overview|description|impact|recommendation|refs|MD5#(title + category + dated)\n")
+          "title|cvssversion|cvssvector|cvss|category|overview|description|impact|recommendation|refs|MD5#(title + category + dated)\n")
     print("Examples:")
     print("Python: python3 FoundIt.py -k \"stored xss\"")
     print("SQLite: sqlite3 findings_db.sqlite \"select * from findings where title like '%ssl%'\"")
@@ -32,7 +32,9 @@ def setupDatabase(findings_json):
     #Destroy and setup table structure
     c.execute('DROP TABLE IF EXISTS findings')
     c.execute('''CREATE TABLE findings( 
-                        title TEXT NOT NULL, 
+                        title TEXT NOT NULL,
+                        cvssversion REAL,
+                        cvssvector TEXT NOT NULL, 
                         cvss REAL, 
                         category TEXT,                    
                         overview TEXT NOT NULL, 
@@ -58,6 +60,8 @@ def setupDatabase(findings_json):
 
             c.execute('''INSERT INTO findings(
                                 title, 
+                                cvssversion,
+                                cvssvector,
                                 cvss, 
                                 category, 
                                 overview, 
@@ -68,9 +72,11 @@ def setupDatabase(findings_json):
                                 dated,
                                 md5
                             ) 
-                        VALUES (?,?,?,?,?,?,?,?,?,?)''',
+                        VALUES (?,?,?,?,?,?,?,?,?,?,?,?)''',
                           (
                                 record['title'],
+                                record['cvssversion'],
+                                record['cvssvector'],
                                 record['cvss'],
                                 record['category'],
                                 record['overview'],

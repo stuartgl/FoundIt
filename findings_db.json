@@ -2,7 +2,9 @@
    "findings":[
       {
          "title":"Template",
-         "cvss":0.0,
+         "cvssversion":3.0,
+         "cvssvector":"",
+         "cvss":1.8,
          "category":"==",
          "overview":"",
          "description":"",
@@ -14,7 +16,9 @@
       },
       {
          "title":"Example Finding",
-         "cvss":0.0,
+         "cvssversion":3.0,
+         "cvssvector":"CVSS:3.0/AV:P/AC:H/PR:H/UI:R/S:C/C:L/I:N/A:N",
+         "cvss":1.8,
          "category":"TEXT: =Generic Section=",
          "overview":"TEXT NOT NULL: The short description of a finding.",
          "description":"TEXT NOT NULL: The full technical description of a finding. \nAlso include the ouput of evidence here.",
@@ -26,7 +30,9 @@
       },
       {
          "title":"SSL v2 in use",
-         "cvss":1.1,
+         "cvssversion":3.0,
+         "cvssvector":"CVSS:3.0/AV:P/AC:H/PR:H/UI:R/S:C/C:L/I:N/A:N",
+         "cvss":1.8,
          "category":"=Inf=",
          "overview":"SSL v2 is too old for this day and age.",
          "description":"SSL v2 is too old for this day and age. Weak crypto is bad karma.",
@@ -38,7 +44,9 @@
       },
       {
          "title":"SSL v3 in use",
-         "cvss":1.1,
+         "cvssversion":3.0,
+         "cvssvector":"CVSS:3.0/AV:P/AC:H/PR:H/UI:R/S:C/C:L/I:N/A:N",
+         "cvss":1.8,
          "category":"=Inf=",
          "overview":"SSL v3 is too old for this day and age.",
          "description":"SSL v3 is too old for this day and age. Weak crypto is bad for business.",
@@ -50,7 +58,9 @@
       },
       {
          "title":"Reflected XSS",
-         "cvss":1.1,
+         "cvssversion":3.0,
+         "cvssvector":"CVSS:3.0/AV:P/AC:H/PR:H/UI:R/S:C/C:L/I:N/A:N",
+         "cvss":1.8,
          "category":"=Web=",
          "overview":"The Javascript, it runs.",
          "description":"An attacker could do things detrimental to the other things.",
@@ -62,7 +72,9 @@
       },
       {
          "title":"Stored XSS",
-         "cvss":1.1,
+         "cvssversion":3.0,
+         "cvssvector":"CVSS:3.0/AV:P/AC:H/PR:H/UI:R/S:C/C:L/I:N/A:N",
+         "cvss":1.8,
          "category":"=Web=",
          "overview":"The Javascript, it is saved.",
          "description":"An attacker could leave the bad code for the innocents to run. <script>alert('If you see this as a popup, enjoy the irony -FoundIt');</script>",
