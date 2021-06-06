@@ -111,7 +111,9 @@ During build of the database, an MD5 hash is generated from title, category and 
    "findings":[
       {
          "title":"Template",
-         "cvss":0.0,
+         "cvssversion":3.0,
+         "cvssvector":"",
+         "cvss":1.8,
          "category":"==",
          "overview":"",
          "description":"",
@@ -123,7 +125,9 @@ During build of the database, an MD5 hash is generated from title, category and 
       },
       {
          "title":"Example Finding",
-         "cvss":0.0,
+         "cvssversion":3.0,
+         "cvssvector":"TEXT NOT NULL: CVSS Vector, e.g. CVSS:3.0/AV:P/AC:H/PR:H/UI:R/S:C/C:L/I:N/A:N",
+         "cvss":1.8,
          "category":"TEXT: =Generic Section=",
          "overview":"TEXT NOT NULL: The short description of a finding.",
          "description":"TEXT NOT NULL: The full technical description of a finding. \nAlso include the ouput of evidence here.",

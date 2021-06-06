@@ -17,7 +17,7 @@
       {
          "title":"Example Finding",
          "cvssversion":3.0,
-         "cvssvector":"CVSS:3.0/AV:P/AC:H/PR:H/UI:R/S:C/C:L/I:N/A:N",
+         "cvssvector":"TEXT CVSS:3.0/AV:P/AC:H/PR:H/UI:R/S:C/C:L/I:N/A:N",
          "cvss":1.8,
          "category":"TEXT: =Generic Section=",
          "overview":"TEXT NOT NULL: The short description of a finding.",
